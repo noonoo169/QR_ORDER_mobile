@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, TextInput, Alert } from 'react-native'
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
@@ -108,7 +108,7 @@ const AddAddressScreen = ({ navigation }) => {
                         paddingLeft: 10
                     }}>
                         <CustomInput placeholder='Full name'
-                            onChangeText={setFullName}
+                            setValue={setFullName}
 
                         />
                     </View>
@@ -132,7 +132,7 @@ const AddAddressScreen = ({ navigation }) => {
                         paddingLeft: 10
                     }}>
                         <CustomInput placeholder='Address'
-                            onChangeText={setAddress}
+                            setValue={setAddress}
 
                         />
                     </View>
@@ -155,7 +155,7 @@ const AddAddressScreen = ({ navigation }) => {
                         paddingLeft: 10
                     }}>
                         <CustomInput placeholder='Phone number'
-                            onChangeText={setPhoneNumber}
+                            setValue={setPhoneNumber}
 
                         />
                     </View>
@@ -170,8 +170,14 @@ const AddAddressScreen = ({ navigation }) => {
             }}>
                 <TouchableOpacity
                     onPress={async () => {
-                        await addAdressUser();
-                        Navigation.navigate('Address', { id });
+                        if(address.length==0 || fullName.length ==0 || phoneNumber.length == 0){
+                            Alert.alert("Please fill all out");
+                        }
+                        else {
+                            await addAdressUser();
+                            Navigation.navigate('Address', { id });
+                        }
+                        
                     }}
                     style={{
                         alignItems: 'center',

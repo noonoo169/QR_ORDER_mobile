@@ -139,12 +139,10 @@ const Product = ({ nameCategory }) => {
                     fontWeight: 'bold'
                   }}>{item.price}</Text>
 
-                  <TouchableOpacity style={{
-                    position: 'absolute',
-                    left: 72
-                  }}
-                  >
+                  
                     <View style={{
+                      position: 'absolute',
+                      left: 60,
                       height: 23,
                       width: 23,
                       borderRadius: 20,
@@ -156,7 +154,6 @@ const Product = ({ nameCategory }) => {
                       <Image source={require('../../assets/images/add.png')}
                         style={{ width: 21, height: 21 }}></Image>
                     </View>
-                  </TouchableOpacity>
                 </View>
 
               </View>

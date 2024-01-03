@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, useWindowDimensions, Alert} from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions, Alert } from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import CustomBackButton from '../components/CustomBackButton';
@@ -13,24 +13,26 @@ const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
 
   const onRegisterPressed = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/auth/register`,{
+      const response = await axios.post(`${BASE_URL}/api/auth/register`, {
         email,
         username,
         password
       });
-      if(response.status >= 200 && response.status < 300) {
+      if (response.status >= 200 && response.status < 300) {
         console.log("Đang ký thành công")
-        Toast.show('Đăng ký thành công');
+        Alert.alert('Register success');
+        navigation.navigate('SignIn');
         // Alert.alert("sai tài khoản hoặc mật khẩu");
 
       }
 
     } catch (error) {
-      Alert.alert("Đã có lỗi ");
+      Alert.alert("Đã có lỗi");
 
       console.warn(error)
     }
@@ -40,7 +42,7 @@ const SignUpScreen = () => {
     navigation.navigate('SignIn');
   }
 
-  
+
 
 
   const { height } = useWindowDimensions();
@@ -59,10 +61,29 @@ const SignUpScreen = () => {
 
       <CustomInput placeholder='Email' value={email} setValue={setEmail} secureTextEntry={false} />
       <CustomInput placeholder='Username' value={username} setValue={setUsername} secureTextEntry={false} />
-      
+
       <CustomInput placeholder='Password' value={password} setValue={setPassword} secureTextEntry={true} />
-      
-      <CustomButton text="Register" onPress={onRegisterPressed} />
+      <CustomInput placeholder='Confirm Password' value={confirmPassword} setValue={setConfirmPassword} secureTextEntry={true} />
+
+      <CustomButton text="Register" onPress={() => {
+        if(email.length == 0 || username.length == 0 || password.length == 0) {
+          Alert.alert("Please fill all out");
+        } else {
+          if(!email.endsWith("@gmail.com")){
+            Alert.alert("Email must be in the format @gmail.com");
+          }
+          else {
+            if(password === confirmPassword){
+              onRegisterPressed();
+            } else {
+              Alert.alert("password and confirm password should be the same");
+            }
+          }
+          
+          
+        }
+        
+      }} />
 
 
 

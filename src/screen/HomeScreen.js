@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
+import { colors } from '../Constant'
 
 const HomeScreen = () => {
   return (
@@ -62,14 +63,6 @@ const HomeScreen = () => {
               color: 'black'
             }}
           >Kẻ hủy diệt giấc ngủ</Text>
-          {/* <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              paddingHorizontal: 40,
-              color: 'black'
-            }}
-          >Giúp bạn tỉnh táo mỗi ngày</Text> */}
         </View>
         <Image
             source={require('../../assets/images/coffee-cup.png')}
@@ -116,11 +109,15 @@ const HomeScreen = () => {
           top: 310,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#fff',
+          // backgroundColor: '#fff',
           width: '95%',
           padding: 15,
           borderRadius: 10,
-          shadowOpacity: 80,
+          backgroundColor: colors.COLOR_LIGHT,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 7,
           elevation: 5,
           marginTop: 20
         }}>
