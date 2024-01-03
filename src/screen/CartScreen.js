@@ -85,10 +85,19 @@ const CartScreen = ({ navigation, route }) => {
                     }
                 })
                 if (response.status >= 200 && response.status < 300) {
-                    setListUserAddress(response.data);
-                    // console.log(response.data)
-                    console.log("get List address success");
-                    setUserAddress(response.data[0]);
+                    if (Object.keys(paramValue).length > 0) {
+                        console.log(paramValue);
+                        setUserAddress(paramValue);
+                        console.log("set new address success", userAddress);
+                    }
+                    else {
+                        setListUserAddress(response.data);
+                        // console.log(response.data)
+                        console.log("get List address success");
+                        setUserAddress(response.data[0]);
+                        console.log(userAddress);
+                    }
+
                     // console.log(userAddress);
                 }
 
@@ -97,20 +106,23 @@ const CartScreen = ({ navigation, route }) => {
             }
         }
         getAddress().catch((error) => { console.log(error) })
-    }, []);
+    }, [paramValue]);
 
     useEffect(() => {
-        const setNewAddress = () => {
-            if (Object.keys(paramValue).length > 0) {
-                setUserAddress(paramValue);
-                console.log("set new address success", userAddress);
-            }
-            else {
-                console.log("xxx");
-            }
-        }
-        setNewAddress()
-    }, [paramValue])
+        console.log("Updated userAddress:", userAddress);
+    }, [userAddress]);
+    // useEffect(() => {
+    //     const setNewAddress = () => {
+    //         if (Object.keys(paramValue).length > 0) {
+    //             setUserAddress(paramValue);
+    //             console.log("set new address success", userAddress);
+    //         }
+    //         else {
+    //             console.log("xxx");
+    //         }
+    //     }
+    //     setNewAddress()
+    // }, [paramValue])
 
     const checkVAlid = () => {
         Alert.alert("invalid product or address");
@@ -215,10 +227,10 @@ const CartScreen = ({ navigation, route }) => {
             </View>
             <View style={{
                 paddingBottom: 150
-                
+
             }}>
                 <ScrollView>
-                    {listUserAddress.length === 0 ? (
+                    {userAddress === undefined ? (
                         <TouchableOpacity onPress={() => Navigation.navigate('AddAddress')}>
                             <View style={{
                                 height: 85,
@@ -227,8 +239,8 @@ const CartScreen = ({ navigation, route }) => {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 width: '95%',
-                        marginLeft: 10,
-                        paddingLeft: 10
+                                marginLeft: 10,
+                                paddingLeft: 10
                             }}>
                                 <Image style={{
                                     height: 40,
@@ -259,27 +271,21 @@ const CartScreen = ({ navigation, route }) => {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 width: '95%',
-                        marginLeft: 10,
-                        paddingLeft: 10
+                                marginLeft: 10,
+                                paddingLeft: 10
                             }}>
                                 <Image style={{
                                     height: 40,
                                     width: 40,
                                     marginLeft: 10
                                 }} source={require('../../assets/images/address.png')} />
-                                <View>
-                                    <Text style={{
-                                        color: 'black',
-                                        fontSize: 17
-                                    }}>Địa chỉ nhận hàng</Text>
-                                    <Text style={{
-                                        color: 'black'
-                                    }}>{userAddress.fullName} | {userAddress.phoneNumber}</Text>
-                                    <Text style={{
-                                        color: 'black'
-                                    }}>{userAddress.address}</Text>
+                                {userAddress && (
+                                    <View>
+                                        <Text style={{ color: 'black', fontSize: 17 }}>Địa chỉ nhận hàng</Text>
+                                        <Text style={{ color: 'black' }}>{userAddress.fullName} | {userAddress.phoneNumber}</Text>
+                                        <Text style={{ color: 'black' }}>{userAddress.address}</Text>
+                                    </View>)}
 
-                                </View>
                                 <Image style={{
                                     width: 20,
                                     height: 20,
@@ -333,25 +339,25 @@ const CartScreen = ({ navigation, route }) => {
                             fontWeight: 'bold',
                             color: 'black'
                         }}>Note</Text>
-                        
-                        <View style={{
-                        width: '95%',
-                        marginLeft: 10,
-                        paddingLeft: 10
-                    }}>
-                        <CustomInput placeholder='Address'
-                            onChangeText={setNote}
 
-                        />
-                    </View>
+                        <View style={{
+                            width: '95%',
+                            marginLeft: 10,
+                            paddingLeft: 10
+                        }}>
+                            <CustomInput placeholder='Address'
+                                onChangeText={setNote}
+
+                            />
+                        </View>
                     </View>
 
                     <View
-                    style={{
-                        width: '95%',
-                        marginLeft: 10,
-                        paddingLeft: 10
-                    }}>
+                        style={{
+                            width: '95%',
+                            marginLeft: 10,
+                            paddingLeft: 10
+                        }}>
                         <SelectList
                             setSelected={(val) => setSelected(val)}
                             data={data}
@@ -376,14 +382,14 @@ const CartScreen = ({ navigation, route }) => {
                         if (selected === "BANKING") {
                             initiatePayment(totalPrice);
                         } else {
-                            if (userAddress.length === 0 || listId.length === 0) {
-                                checkVAlid();
+                            if ((userAddress === undefined) || (listId.length == 0)) {
+                                Alert.alert("invalid product or address");
                             }
                             else {
                                 await addOrder();
                                 Navigation.navigate('Tabs', { screen: 'Bill', params: { orderId: Orders.id } });
                             }
-                                
+
                         }
 
                     }}
