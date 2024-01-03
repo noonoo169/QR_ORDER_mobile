@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Image, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
 
@@ -17,6 +17,22 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
+
+
+    useEffect(() => {
+      const getToken = async () => {
+        try {
+            const token = await AsyncStorage.getItem('loginInfor');
+            if(token) {
+              navigation.navigate('Tabs');
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
+    getToken();
+    }, [])
+    
 
   const onSignInPressed = async (username, password) => {
     try {
