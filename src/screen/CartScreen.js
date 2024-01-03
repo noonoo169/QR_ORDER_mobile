@@ -379,20 +379,18 @@ const CartScreen = ({ navigation, route }) => {
             }}>
                 <TouchableOpacity
                     onPress={async () => {
-                        if (selected === "BANKING") {
-                            initiatePayment(totalPrice);
+                        if ((userAddress === undefined) || (listId.length == 0)) {
+                            Alert.alert("invalid product or address");
                         } else {
-                            if ((userAddress === undefined) || (listId.length == 0)) {
-                                Alert.alert("invalid product or address");
+                            if (selected === "BANKING") {
+                                initiatePayment(totalPrice);
+                            } else {
+                                    await addOrder();
+                                    Navigation.navigate('Tabs', { screen: 'Bill', params: { orderId: Orders.id } });
+                                }
+    
                             }
-                            else {
-                                await addOrder();
-                                Navigation.navigate('Tabs', { screen: 'Bill', params: { orderId: Orders.id } });
-                            }
-
-                        }
-
-                    }}
+                        }}
                     style={{
                         alignItems: 'center',
                         justifyContent: 'center',
