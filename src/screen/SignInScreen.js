@@ -19,7 +19,6 @@ const SignInScreen = () => {
   const navigation = useNavigation();
 
   const onSignInPressed = async (username, password) => {
-
     try {
       const response = await axios.post(`${BASE_URL}/api/auth/login`, {
         username,
