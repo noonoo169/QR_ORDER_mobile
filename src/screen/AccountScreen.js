@@ -1,9 +1,21 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AccountScreen = () => {
   const navigation = useNavigation();
+
+  const removeItemValue = async () => {
+    try {
+        await AsyncStorage.removeItem("loginInfor");
+        return true;
+    }
+    catch(exception) {
+        return false;
+    }
+}
+
   return (
     <View style={{ backgroundColor: '#f5deb3', flex: 1 }} >
       <TouchableOpacity
@@ -156,7 +168,10 @@ const AccountScreen = () => {
           }}>phanhuuthai2807@gmail.com</Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => {
+            removeItemValue();
+            navigation.navigate('SignIn')
+          }}
           style={{
             alignItems: 'center',
             flexDirection: 'row',

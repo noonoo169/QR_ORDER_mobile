@@ -77,7 +77,9 @@ const EditProfile = ({ navigation }) => {
                         <TextInput
                             placeholder='name'
                             editable={true}
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: 10,
+                                marginVertical: 10,
+                            }}
                         />
                     </View>
 
@@ -107,7 +109,9 @@ const EditProfile = ({ navigation }) => {
                         <TextInput
                             placeholder='phone number'
                             editable={true}
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: 10,
+                                marginVertical: 10,
+                            }}
                         />
                     </View>
 
@@ -137,7 +141,9 @@ const EditProfile = ({ navigation }) => {
                         <TextInput
                             placeholder='email'
                             editable={true}
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: 10,
+                                marginVertical: 10,
+                            }}
                         />
                     </View>
 
@@ -167,7 +173,9 @@ const EditProfile = ({ navigation }) => {
                         <TextInput
                             placeholder='address'
                             editable={true}
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: 10,
+                                marginVertical: 10,
+                            }}
                         />
                     </View>
 
