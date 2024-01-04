@@ -8,6 +8,7 @@ const BillScreen = () => {
   const [orderId, setOrderId] = useState({})
   
   const route = useRoute();
+  
 
   
   useEffect(() => {

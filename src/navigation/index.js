@@ -18,6 +18,7 @@ import WebViewScreen from '../screen/WebviewScreen';
 import PaymentResult from '../screen/PaymentResult';
 import ComboDetailScreen from '../screen/ComboDetailScreen';
 import ViewLoginMail from '../screen/ViewLoginMail';
+import AccountScreen from '../screen/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ const Navigation = () => {
         <Stack.Screen name='PaymentResult' component={PaymentResult} />
         <Stack.Screen name='ComboDetail' component={ComboDetailScreen} />
         <Stack.Screen name='ViewLoginMail' component={ViewLoginMail} />
+        <Stack.Screen name='Account' component={AccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

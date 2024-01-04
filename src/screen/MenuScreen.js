@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, SafeAreaView, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import MenuSearch from '../components/MenuSearch'
 import Categories from '../components/Categories'
@@ -10,11 +10,13 @@ const MenuScreen = () => {
 
   const navigation = useNavigation();
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
-  const [nameCategory, setNameCategories] = useState('Trà');
+  const [nameCategory, setNameCategories] = useState('Cà phê');
+
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
-    
-  },[])
+
+  }, [])
 
   const onSetSelectedCategoryIndex = index => {
     setSelectedCategoryIndex(index);
@@ -36,17 +38,45 @@ const MenuScreen = () => {
           }}
         >Hi, Thai</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Image source={require('../../assets/images/cart.png')}
-          style={{ width: 40, height: 35 }}></Image>
+          <Image source={require('../../assets/images/cart.png')}
+            style={{ width: 40, height: 35 }}></Image>
         </TouchableOpacity>
-        
+
       </View>
-      <MenuSearch />
+      <View
+        style={{
+          width: '100%',
+          height: 50,
+          flexDirection: "row",
+          // paddingVertical: 16,
+          borderRadius: 30,
+          alignItems: 'center',
+          paddingHorizontal: 16,
+          marginVertical: 16,
+          backgroundColor: 'white',
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 7,
+          elevation: 5,
+        }}
+      >
+        <Image source={require('../../assets/images/search.png')}
+          style={{ width: 20, height: 20 }} />
+        <TextInput
+          onChangeText={setSearchValue}
+          placeholder='enter your food'
+          style={{
+            paddingLeft: 8,
+            fontSize: 16,
+          }}
+        ></TextInput>
+      </View>
       <View>
         <Categories selectedCategoryIndex={selectedCategoryIndex} onSetSelectedCategoryIndex={onSetSelectedCategoryIndex} onsetNameCategories={onsetNameCategories} />
       </View>
       <View>
-        <Product nameCategory={nameCategory}/>
+        <Product nameCategory={nameCategory} searchValue={searchValue} />
       </View>
 
     </SafeAreaView>
