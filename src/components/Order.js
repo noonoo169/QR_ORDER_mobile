@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors, orderList } from '../Constant'
 import axios from 'axios';
@@ -6,19 +6,19 @@ import { BASE_URL } from '../../ipconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-const Order = ({id}) => {
-
-  
+const Order = ({ id }) => {
 
   const navigation = useNavigation();
 
   const [listOrder, setListOrder] = useState([]);
 
   const [refreshKey, setRefreshKey] = useState(0);
-  
+
+  const [isLoading, setIsLoading] = useState(true);
+
   console.log(id);
 
- 
+
   const getToken = async () => {
     try {
       const token = await AsyncStorage.getItem('loginInfor');
@@ -50,6 +50,10 @@ const Order = ({id}) => {
 
       } catch (error) {
         console.log(error)
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     }
     getListOrder().catch(err => {
@@ -64,78 +68,85 @@ const Order = ({id}) => {
       marginTop: 20,
       marginBottom: 150
     }}>
-      <FlatList
-        data={listOrder}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('OrderDetails', { listOrder: item })}
-            activeOpacity={0.8}
-          >
-            <View key={item.id}
-              style={{
-                backgroundColor: colors.COLOR_LIGHT,
-                height: 60,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.1,
-                shadowRadius: 7,
-                elevation: 5,
-                marginVertical: 13,
-                borderRadius: 10,
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}>
-              <Image
-                source={require('../../assets/images/bill-icon.png')}
+      {isLoading ? (
+        <ActivityIndicator style={{
+          marginTop: 20,
+        }} size="large" color="#999999" />
+      ) : (
+        <FlatList
+          data={listOrder}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('OrderDetails', { listOrder: item })}
+              activeOpacity={0.8}
+            >
+              <View key={item.id}
                 style={{
-                  width: 45,
-                  height: 45,
-                  marginLeft: 10
-                }}
-              />
-              <View style={{
-                marginLeft: 10
-              }}>
-                <Text style={{
-                  fontSize: 13,
-                  color: 'black',
-                  fontWeight: 'bold'
-                }}>IDHD: {item.id}</Text>
-                <Text>{item.orderTime[2]}-{item.orderTime[1]}-{item.orderTime[0]}</Text>
-              </View>
-              <View
-                style={{
-                  marginLeft: 12,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 100
-                }}
-              >
-                <Text
+                  backgroundColor: colors.COLOR_LIGHT,
+                  height: 60,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 7,
+                  elevation: 5,
+                  marginVertical: 13,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}>
+                <Image
+                  source={require('../../assets/images/bill-icon.png')}
                   style={{
-                    color: 'black',
-
+                    width: 45,
+                    height: 45,
+                    marginLeft: 10
                   }}
-                >{item.orderStatus}</Text>
-
-              </View>
-              <View>
-                <Text
-                  style={{
-                    paddingLeft: 20,
+                />
+                <View style={{
+                  marginLeft: 10
+                }}>
+                  <Text style={{
+                    fontSize: 13,
                     color: 'black',
                     fontWeight: 'bold'
+                  }}>IDHD: {item.id}</Text>
+                  <Text>{item.orderTime[2]}-{item.orderTime[1]}-{item.orderTime[0]}</Text>
+                </View>
+                <View
+                  style={{
+                    marginLeft: 12,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 100
                   }}
-                >{item.totalPrice}đ</Text>
+                >
+                  <Text
+                    style={{
+                      color: 'black',
+
+                    }}
+                  >{item.orderStatus}</Text>
+
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      paddingLeft: 20,
+                      color: 'black',
+                      fontWeight: 'bold'
+                    }}
+                  >{item.totalPrice}đ</Text>
+                </View>
+
               </View>
 
-            </View>
+            </TouchableOpacity>
 
-          </TouchableOpacity>
+          )}
+        />
+      )}
 
-        )}
-      />
     </View>
   )
 }
