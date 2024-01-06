@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_URL } from '../../ipconfig';
 
-const AccountScreen = ({ id }) => {
+const AccountScreen = () => {
   const navigation = useNavigation();
 
   const [userInfor, setUserInfor] = useState({});
@@ -13,6 +13,23 @@ const AccountScreen = ({ id }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [errors, setErrors] = useState(false);
+
+  const [orderId, setOrderId] = useState({})
+
+  const route = useRoute();
+
+  useEffect(() => {
+    const setParam = () => {
+        if (route.params) {
+            setOrderId(route.params);
+            console.log("route", route.params);
+        }
+        else {
+            console.log("no route");
+        }
+    }
+    setParam();
+}, [route.params]);
 
   const removeItemValue = async () => {
     try {
@@ -59,11 +76,26 @@ const AccountScreen = ({ id }) => {
       }
     }
     getUserInfor();
-  },[id])
+  },[orderId])
 
   
     return (
       <View style={{ backgroundColor: '#f5deb3', flex: 1 }} >
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ChangePassword')}
+          style={{
+            position: 'absolute',
+            top: 10,
+            left: 15,
+            width: 40
+          }}>
+          <Image source={require('../../assets/images/changepass.png')}
+            style={{
+              height: 40,
+              width: 40,
+              tintColor: '#2f4f4f'
+            }} />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('EditProfile', { userInfor: userInfor })}
           style={{

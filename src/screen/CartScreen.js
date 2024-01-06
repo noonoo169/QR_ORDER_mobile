@@ -24,7 +24,7 @@ const CartScreen = ({ navigation, route }) => {
 
     const [note, setNote] = useState('');
 
-    const [selected, setSelected] = useState("CASH");
+    const [selected, setSelected] = useState("");
 
     const [listId, setListId] = useState([]);
 
@@ -358,6 +358,14 @@ const CartScreen = ({ navigation, route }) => {
                             marginLeft: 10,
                             paddingLeft: 10
                         }}>
+                            <Text style={{
+                            marginLeft: 5,
+                            fontSize: 15,
+
+                            marginVertical: 10,
+                            fontWeight: 'bold',
+                            color: 'black'
+                        }}>Payment Method</Text>
                         <SelectList
                             setSelected={(val) => setSelected(val)}
                             data={data}
@@ -382,11 +390,17 @@ const CartScreen = ({ navigation, route }) => {
                         if ((userAddress === undefined) || (listId.length == 0)) {
                             Alert.alert("invalid product or address");
                         } else {
+
                             if (selected === "BANKING") {
                                 initiatePayment(totalPrice);
                             } else {
+                                if(selected === ""){
+                                    Alert.alert("please choose a payment method");
+                                } else {
                                     await addOrder();
                                     Navigation.navigate('Tabs', { screen: 'Bill', params: { orderId: Orders.id } });
+                                }
+                                    
                                 }
     
                             }
