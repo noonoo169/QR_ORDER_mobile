@@ -55,7 +55,7 @@ const EditProfile = ({ navigation, route }) => {
                     }
                 })
             if (response.status >= 200 && response.status < 300) {
-                Navigation.navigate('Account', { id: Math.floor(Math.random() * 100) + 1 } );
+                Navigation.navigate('Tabs', { screen: 'Account', params: { id: Math.floor(Math.random() * 100) + 1 } });
             }
 
 

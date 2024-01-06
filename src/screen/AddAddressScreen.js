@@ -19,6 +19,27 @@ const AddAddressScreen = ({ navigation }) => {
 
     const [id, setId] = useState(0);
 
+    // function isAlphaString(fullName) {
+    //     // Biểu thức chính quy để kiểm tra xem chuỗi chỉ chứa ký tự chữ
+    //     const regex = /^[a-zA-Z\u00C0-\u017F\s']+$/;
+
+    //     if (!regex.test(fullName)) {
+    //         return false;
+    //     }
+
+    //     return true;
+    // }
+
+    function isNumericString(phoneNumber) {
+        const regex = /^\d{10}$/;
+      
+        if (!regex.test(phoneNumber)) {
+          return false;
+        }
+      
+        return true;
+      }
+
     const getToken = async () => {
         try {
             const token = await AsyncStorage.getItem('loginInfor');
@@ -170,14 +191,23 @@ const AddAddressScreen = ({ navigation }) => {
             }}>
                 <TouchableOpacity
                     onPress={async () => {
-                        if(address.length==0 || fullName.length ==0 || phoneNumber.length == 0){
+                        if (address.length == 0 || fullName.length == 0 || phoneNumber.length == 0) {
                             Alert.alert("Please fill all out");
                         }
                         else {
-                            await addAdressUser();
-                            Navigation.navigate('Address', { id });
+                            // if (!isAlphaString(fullName)) {
+                            //     Alert.alert("full name must be alphabet");
+                            // } else {
+                                if (!isNumericString(phoneNumber)) {
+                                    Alert.alert("phone number must be number and contains 10 digits");
+                                } else {
+                                    await addAdressUser();
+                                    Navigation.navigate('Address', { id });
+                                }
+                            // }
+
                         }
-                        
+
                     }}
                     style={{
                         alignItems: 'center',

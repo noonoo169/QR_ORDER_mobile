@@ -1,10 +1,11 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, LogBox } from 'react-native'
 import React, { useState } from 'react'
 import { WebView } from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
 
 const WebViewScreen = ({ route }) => {
     const { url } = route.params;
+    LogBox.ignoreLogs(['Encountered an error loading page']);
 
     const navigation = useNavigation();
 
@@ -45,6 +46,39 @@ const WebViewScreen = ({ route }) => {
         }
 
     };
+    // const handleWebViewNavigation = (navState) => {
+    //     try {
+    //         const returnedUrl = navState.url;
+    //         console.log('Returned URL:', returnedUrl);
+    
+    //         if (navState.loading) {
+    //             // The WebView is still loading, no need to handle anything yet
+    //             return;
+    //         }
+    
+    //         if (navState.error) {
+    //             // Check for specific error conditions and handle them
+    //             if (navState.error.domain === 'NSURLErrorDomain' && navState.error.code === -1004) {
+    //                 // Ignore the error caused by the inability to connect to the server
+    //                 return;
+    //             }
+    
+    //             // Handle other errors if needed
+    //             console.error('WebView error:', navState.error);
+    //             return;
+    //         }
+    
+    //         // Handle successful navigation
+    //         if (returnedUrl.includes('vnp_ResponseCode')) {
+    //             const paymentStatus = extractPaymentStatusFromUrl(returnedUrl);
+    //             navigation.navigate('PaymentResult', { status: paymentStatus });
+    //         } else {
+    //             console.log("nonsuccess");
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     return (
         <View style={styles.container}>
@@ -52,6 +86,7 @@ const WebViewScreen = ({ route }) => {
                 source={{ uri: url }}
                 style={styles.webView}
                 onNavigationStateChange={handleWebViewNavigation}
+                
             />
         </View>
     )

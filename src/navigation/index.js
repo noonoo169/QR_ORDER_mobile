@@ -19,6 +19,8 @@ import PaymentResult from '../screen/PaymentResult';
 import ComboDetailScreen from '../screen/ComboDetailScreen';
 import ViewLoginMail from '../screen/ViewLoginMail';
 import AccountScreen from '../screen/AccountScreen';
+import ConfirmPasswordScreen from '../screen/ConfirmPasswordScreen';
+import ChangePasswordScreen from '../screen/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +43,8 @@ const Navigation = () => {
         <Stack.Screen name='ComboDetail' component={ComboDetailScreen} />
         <Stack.Screen name='ViewLoginMail' component={ViewLoginMail} />
         <Stack.Screen name='Account' component={AccountScreen} />
+        <Stack.Screen name='ConfirmPassword' component={ConfirmPasswordScreen} />
+        <Stack.Screen name='ChangePassword' component={ChangePasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
